@@ -31,6 +31,10 @@ const routes = [
       {
         path: 'center',
         component: Center
+      },
+      {
+        path: '',
+        redirect: './films'
       }
     ]
   },
