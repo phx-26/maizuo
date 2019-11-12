@@ -11,6 +11,7 @@ import Film from '../views/film/index.vue'
 import Login from '../views/login/index.vue'
 
 import Money from '../views/money/index.vue'
+import Card from '../views/card/index.vue'
 
 Vue.use(VueRouter)
 
@@ -52,12 +53,37 @@ const routes = [
   },
   {
     path: '/money',
-    component: Money
+    component: Money,
+    meta: {
+      needLogin: true
+    }
+  },
+  {
+    path: '/card',
+    component: Card,
+    meta: {
+      needLogin: true
+    }
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  let userInfo = window.localStorage.getItem('userInfo')
+  if (to.meta.needLogin && !userInfo) {
+    // next('/Login')
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  } else {
+    next()
+  }
 })
 
 export default router
